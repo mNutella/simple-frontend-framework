@@ -1,4 +1,3 @@
-import { template } from "babel-core";
 import * as snabbdom from "snabbdom";
 
 const patch = snabbdom.init([
@@ -16,17 +15,36 @@ export const createComponent = ({
   initialState = {}
 }) => {
   let state = initialState;
+  let oldNode;
 
-  const mappedMethods = Object.keys(methods).reduce(
+  const mapMethods = props => Object.keys(methods).reduce(
     (acc, key) => ({
       ...acc,
       [key]: (...args) => {
         state = methods[key](state, ...args);
+
+        const newNode = template({
+          ...props,
+          ...state,
+          ...mapMethods(props)
+        });
+
+        patch(oldNode.template, newNode.template);
+        oldNode = newNode;
+
         return state;
       }
     }),
     {}
   );
 
-  return props => template({ ...props, ...state, ...mappedMethods });
+  return props => {
+    oldNode = template({ 
+      ...props, 
+      ...state, 
+      ...mapMethods(props)
+    });
+
+    return oldNode;
+  }
 }
