@@ -14,4 +14,19 @@ export const createComponent = ({
   template,
   methods = {},
   initialState = {}
-}) => props => template(props)
+}) => {
+  let state = initialState;
+
+  const mappedMethods = Object.keys(methods).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: (...args) => {
+        state = methods[key](state, ...args);
+        return state;
+      }
+    }),
+    {}
+  );
+
+  return props => template({ ...props, ...state, ...mappedMethods });
+}
