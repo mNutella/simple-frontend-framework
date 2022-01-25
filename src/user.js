@@ -1,3 +1,4 @@
+import { createComponent } from "../framework";
 import { div } from "../framework/element";
 import { onClick } from "../framework/event";
 
@@ -7,5 +8,7 @@ const methods = {
   changeName: (state, firstName) => ({ ...state, firstName })
 };
 
-export const User = ({ firstName, lastName }) => 
+const template = ({ firstName, lastName }) => 
   div`${onClick(() => alert(firstName))} Hello ${firstName} ${lastName}!`;
+
+export const User = createComponent({ template, methods, initialState });
