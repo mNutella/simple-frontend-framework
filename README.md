@@ -1,8 +1,12 @@
 # Simple Frontend Framework
 
-- [ ] Templating
-- [ ] Virtual DOM
-- [ ] State Management
+- [x] Templating
+- [x] Virtual DOM
+  - [x] [Snabbdom](https://github.com/snabbdom/snabbdom)
+  - [x] Event Handling
+  - [x] Change detection
+  - [x] DOM patching
+- [x] State Management
 
 ## Run
 ~~~
